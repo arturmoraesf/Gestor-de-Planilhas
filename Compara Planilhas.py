@@ -2,9 +2,12 @@ import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 import pandas as pd
 import os
-from openpyxl import load_workbook, Workbook
+from openpyxl import load_workbook
 
-# Função para gerar a planilha
+def log_message(message):
+    text_log.insert(tk.END, message + "\n")
+    text_log.see(tk.END)
+
 def geraPlanilha():
     pasta = filedialog.askdirectory(title="Selecione a pasta com os documentos")
     if not pasta:
@@ -30,9 +33,9 @@ def geraPlanilha():
     })
     
     df.to_excel('planilha_documentos.xlsx', index=False)
+    log_message("Planilha gerada com sucesso!")
     messagebox.showinfo("Sucesso", "Planilha gerada com sucesso!")
 
-# Função para comparar planilhas
 def comparaPlanilhas():
     xlsx_origem = filedialog.askopenfilename(title="Selecione a planilha para comparar", filetypes=[("Arquivos Excel", "*.xlsx")])
     if not xlsx_origem:
@@ -52,11 +55,11 @@ def comparaPlanilhas():
             ws[f"B{row}"] = "Encontrado" if valor_celula in valores_origem else "Não Encontrado"
         
         wb.save(xlsx_destino)
+        log_message(f"Planilha '{xlsx_destino}' foi atualizada.")
         messagebox.showinfo("Sucesso", f"Planilha '{xlsx_destino}' foi atualizada.")
     except Exception as e:
         messagebox.showerror("Erro", f"Erro ao processar as planilhas: {e}")
 
-# Função para deletar documentos repetidos
 def deletar_documentos_repetidos():
     planilha_nome = "planilha_documentos.xlsx"
     pasta_arquivos = filedialog.askdirectory(title="Selecione a pasta com os arquivos")
@@ -82,23 +85,23 @@ def deletar_documentos_repetidos():
             caminho_arquivo = os.path.join(pasta_arquivos, arquivo)
             try:
                 os.remove(caminho_arquivo)
-                print(f"Arquivo deletado: {arquivo}")
+                log_message(f"Arquivo deletado: {arquivo}")
             except Exception as e:
-                print(f"Erro ao deletar {arquivo}: {e}")
+                log_message(f"Erro ao deletar {arquivo}: {e}")
     
+    log_message("Processo concluído. Arquivos duplicados removidos.")
     messagebox.showinfo("Sucesso", "Processo concluído. Arquivos duplicados removidos.")
 
-# Criar a interface gráfica
 root = tk.Tk()
 root.title("Gestor de Planilhas")
-root.geometry("400x350")
+root.geometry("500x400")
 root.resizable(False, False)
 
-frame = ttk.Frame(root, padding=20)
+frame = ttk.Frame(root, padding=10)
 frame.pack(fill="both", expand=True)
 
 label = ttk.Label(frame, text="Escolha uma ação:", font=("Arial", 12, "bold"))
-label.pack(pady=10)
+label.pack(pady=5)
 
 btn_gerar = ttk.Button(frame, text="Gerar Planilha", command=geraPlanilha)
 btn_gerar.pack(pady=5, fill="x")
@@ -110,6 +113,17 @@ btn_deletar = ttk.Button(frame, text="Deletar Notas Lançadas", command=deletar_
 btn_deletar.pack(pady=5, fill="x")
 
 btn_sair = ttk.Button(frame, text="Sair", command=root.quit)
-btn_sair.pack(pady=20, fill="x")
+btn_sair.pack(pady=10, fill="x")
+
+text_log = tk.Text(frame, height=8, wrap="word", state="normal")
+text_log.pack(pady=5, fill="both", expand=True)
+text_log.insert(tk.END, "Logs do sistema:\n")
+text_log.config(state="disabled")
+
+def log_message(message):
+    text_log.config(state="normal")
+    text_log.insert(tk.END, message + "\n")
+    text_log.config(state="disabled")
+    text_log.see(tk.END)
 
 root.mainloop()
