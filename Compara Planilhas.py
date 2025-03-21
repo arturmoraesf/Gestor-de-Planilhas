@@ -182,8 +182,6 @@ def gerar_relatorio_siat():
             break  # Sai do loop quando o pixel assume a cor esperada
         time.sleep(0.1)  # Aguarda 0.1 segundos antes de verificar novamente
 
-    print("Processo carregado! Continuando a automação...")
-
     # **Passo 32: Posiciona o mouse em X=667, Y=571**
     pyautogui.moveTo(667, 571, duration=0)
 
