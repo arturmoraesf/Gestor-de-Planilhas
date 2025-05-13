@@ -136,13 +136,13 @@ def gerar_relatorio_siat():
         pyautogui.press("tab")
         # time.sleep(0.1)
 
-    # **Passo 18: Digita "01/03/2025"**
+    # **Passo 18: Digita a data inicial**
     pyautogui.write(data_inicio, interval=0)
 
     # **Passo 19: Aperta Tab**
     pyautogui.press("tab")
 
-    # **Passo 20: Digita "31/03/2025"**
+    # **Passo 20: Digita a data final**
     pyautogui.write(data_fim, interval=0)
 
     # **Passo 21: Posiciona o mouse em X=428, Y=198 (CTG)**
