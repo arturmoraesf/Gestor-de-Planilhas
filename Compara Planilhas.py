@@ -65,6 +65,14 @@ def gerar_relatorio_siat():
 
     # Passo 2: Digita "SiatWEB"
     pyautogui.write("SiatWEB", interval=0)
+    
+    # Passo 2.5: Aguarda o Siat aparecer no menu pesquisar do Windows
+    while True:
+        pixel_color = pyautogui.pixel(64, 295) # Coordenadas do pixel monitorado
+        if pixel_color == (52, 76, 143): # Cor azul escuro Siat
+            break
+            # Sai do loop quando o pixel assume a cor esperada
+        time.sleep(0.1) # Aguarda 0.1 segundos antes de verificar novamente
 
     # Passo 3: Abre o aplicativo (pressionando Enter)
     pyautogui.press("enter")
@@ -136,13 +144,13 @@ def gerar_relatorio_siat():
         pyautogui.press("tab")
         # time.sleep(0.1)
 
-    # **Passo 18: Digita a data inicial**
+    # **Passo 18: Digita a primeira data**
     pyautogui.write(data_inicio, interval=0)
 
     # **Passo 19: Aperta Tab**
     pyautogui.press("tab")
 
-    # **Passo 20: Digita a data final**
+    # **Passo 20: Digita a segunda data**
     pyautogui.write(data_fim, interval=0)
 
     # **Passo 21: Posiciona o mouse em X=428, Y=198 (CTG)**
@@ -195,7 +203,11 @@ def gerar_relatorio_siat():
     pyautogui.click()
 
     # Intervalo
-    time.sleep(1)
+    while True:
+        pixel_color = pyautogui.pixel(255, 360)  # Coordenadas do pixel a serem monitoradas
+        if pixel_color == (240, 240, 240):  # Cor cinza do explorador de arquivos (RGB)
+            break  # Sai do loop quando o pixel assume a cor esperada
+        time.sleep(0.1)  # Aguarda 0.1 segundos antes de verificar novamente
 
     # **Passo 36: Digita "lancamentos-mes"**
     pyautogui.write("lancamentos-mes", interval=0)
@@ -226,31 +238,49 @@ def gerar_relatorio_siat():
 
     # **Passo 44: Digita "lancamentos mes.csv"**
     pyautogui.write("lancamentos-mes.csv", interval=0.1)
+    
+    # **Passo 44.5: Aguarda o menu de pesquisa carregar**
+    while True:
+        pixel_color = pyautogui.pixel(68, 288)  # Coordenadas do pixel a serem monitoradas
+        if pixel_color == (60, 188, 69):  # Cor verde LibreOffice Calc (RGB)
+            break  # Sai do loop quando o pixel assume a cor esperada
+        time.sleep(0.1)  # Aguarda 0.1 segundos antes de verificar novamente
 
     # **Passo 45: Aperta Enter para abrir o arquivo**
     pyautogui.press("enter")
 
-    # **Passo 46: Aguarda 2 segundos para o arquivo abrir**
-    time.sleep(2)
+    # **Passo 46: Aguarda o LibreOffice Calc abrir**
+    while True:
+        pixel_color = pyautogui.pixel(743, 117) # Coordenadas do pixel a serem monitoradas
+        if pixel_color == (0, 120, 215): # Cor azul do botão OK (RGB)
+            break # Sai do loop quando o pixel assume a cor esperada
+        time.sleep(0.1) # Aguarda 0.1 segundos antes de verificar novamente
 
     # **Passo 47: Aperta Enter (caso haja algum aviso na abertura)**
+    pyautogui.moveTo(891, 228, duration=0)
+    pyautogui.click()
     pyautogui.press("enter")
 
-    # **Passo 48: Aguarda 2 segundos**
-    time.sleep(2)
+    # **Passo 48: Aguarda a planilha abrir no LibreOffice Calc**
+    while True:
+        pixel_color = pyautogui.pixel(71, 60) # Coordenadas do pixel a serem monitoradas
+        if pixel_color == (212, 146, 216): # Cor roxa do botão "Salvar" da planilha
+            break # Sai do loop quando o pixel assume a cor esperada
+        time.sleep(0.1) # Aguarda 0.1 segundos antes de verificar novamente
+    
 
     # **Passo 49: Pressiona Ctrl + Shift + S (Salvar Como)**
     pyautogui.hotkey("ctrl", "shift", "s")
     time.sleep(1)
 
     # **Passo 50: Posiciona o mouse para a dropbox de extensões de arquivos**
-    pyautogui.moveTo(382, 497, duration=0)
+    pyautogui.moveTo(370, 462, duration=0)
 
     # **Passo 51: Clique com botão esquerdo para abrir dropbox**
     pyautogui.click()
 
     # **Passo 52: Posiciona o mouse em cima do formato .xlsx (X=442, Y=582)**
-    pyautogui.moveTo(442, 582, duration=0)
+    pyautogui.moveTo(302, 542, duration=1)
 
     # **Passo 53: Clique**
     pyautogui.click()
